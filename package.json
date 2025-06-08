@@ -4,7 +4,7 @@
   "description": "A WhatsApp bot created using Node.js",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --DILSHAN-MD",
+    "start": "pm2 start index.js --name DILSHAN-MD",
     "stop": "pm2 stop DILSHAN-MD",
     "restart": "pm2 restart DILSHAN-MD"
   },
@@ -28,20 +28,16 @@
     "vm": "^0.1.0",
     "wa-sticker-formatter": "^4.3.2",
     "qrcode-terminal": "^0.12.0",
-    "yt-search" : "2.11.1",
-    "api-dylux" : "1.8.5",
-    "cheerio" : "1.0.0",
+    "yt-search": "2.11.1",
+    "api-dylux": "1.8.5",
+    "cheerio": "1.0.0",
     "g-i-s": "^2.1.7",
     "mfiredlcore-vihangayt": "^1.0.0",
     "@bochilteam/scraper": "latest",
     "@sl-code-lords/si-subdl": "^1.1.1",
-    "@sl-code-lords/esana-news": "latest",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@blackamda/telegram-image-url": "^1.0.0",
     "youtubedl-core": "^4.11.5",
-    "moment-timezone": "latest",
-    "file_size_url": "^1.0.4"
-
-
+    "moment-timezone": "latest"
   }
 }
