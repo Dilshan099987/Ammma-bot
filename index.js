@@ -6,7 +6,7 @@ jidNormalizedUser,
 getContentType,
 fetchLatestBaileysVersion,
 Browsers
-} = require('@whiskeysockets/baileys')
+} = require("@whiskeysockets/baileys")
 
 const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson } = require('./lib/functions')
 const fs = require('fs')
@@ -17,7 +17,6 @@ const util = require('util')
 const { sms,downloadMediaMessage } = require('./lib/msg')
 const axios = require('axios')
 const { File } = require('megajs')
-const prefix = '.'
 
 const ownerNumber = ['94772194789']
 
@@ -36,30 +35,42 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8000;
 
-//=============================================
 
 async function connectToWA() {
-console.log("Connecting wa bot 🧬...");
+
+
+/////////////////MONGODB.///////////////
+const connectDB = require(`./lib/mongodb`)
+connectDB();
+
+//////////////////////////////////////////////////
+const{readEnv} = require(`./lib/database`)
+const config = await readEnv();
+const prefix = config.PREFIX
+
+////////////////////////////////////////////////////////
+        
+console.log("Connecting 🧬...");
 const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
 var { version } = await fetchLatestBaileysVersion()
 
 const conn = makeWASocket({
         logger: P({ level: 'silent' }),
         printQRInTerminal: false,
-        browser: Browsers.macOS("Firefox"),
+        browser: Browsers.macOS("Safari"),
         syncFullHistory: true,
         auth: state,
         version
         })
-    
+
 conn.ev.on('connection.update', (update) => {
 const { connection, lastDisconnect } = update
 if (connection === 'close') {
 if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
 connectToWA()
-}
-} else if (connection === 'open') {
-console.log('😼 Installing... ')
+  }
+  } else if (connection === 'open') {
+console.log('💫 Installing... ')
 const path = require('path');
 fs.readdirSync("./plugins/").forEach((plugin) => {
 if (path.extname(plugin).toLowerCase() == ".js") {
@@ -67,15 +78,28 @@ require("./plugins/" + plugin);
 }
 });
 console.log('Plugins installed successful ✅')
-console.log('Bot connected to whatsapp ✅')
+console.log('dilshan-md ᴄᴏɴᴇᴄᴛᴇᴅ✅')
+  
+let up = `┏━━━━━━━━━━━━━━━┓
+┃ 🤖 BOT       : DILSHAN MD BOT CONNECTED ✅
+┃ 👑 𝙊𝙬𝙣𝙚𝙧     : ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
+┃ ⚙️ Version   : 3.0.0 ʙᴇᴛᴀ
+┃ 💻 Host      : ʀᴇᴘʟɪᴛ
+┃ ⏱️ Uptime    : 10m 10s
+┃ 📆 Date      : 2025/06/01
+┃ 🕒 Time      : 5:00 AM
+┗━━━━━━━━━━━━━━━┛
 
-let up = `Bot Name connected successful ✅\n\nPREFIX: ${prefix}`;
+✨ 𝙒𝙀𝙇𝘾𝙊𝙈𝙀 𝙏𝙊 𝘿𝙄𝙇𝙎𝙃𝘼𝙉 𝙈𝘿 𝘽𝙊𝙏 ✨
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb.co/bHXBV08/9242c844b83f7bf9.jpg` }, caption: up })
+
+🔗 𝙋𝙊𝙒𝙀𝙍𝙀𝘿 𝘽𝙔 𝘿𝙄𝙇𝙎𝙃𝘼𝙉 𝙈𝘿 💥`;
+
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://files.catbox.moe/kejp70.jpg` }, caption: up })
 
 }
 })
-conn.ev.on('creds.update', saveCreds)  
+conn.ev.on('creds.update', saveCreds)
 
 conn.ev.on('messages.upsert', async(mek) => {
 mek = mek.messages[0]
@@ -84,6 +108,16 @@ mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message
 if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_READ_STATUS === "true"){
 await conn.readMessages([mek.key])
 }
+    if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_READ_STATUS === "true"){
+    const emojis = ['❤️‍🩹','💗','💛','💙'];
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+    await conn.sendMessage(mek.key.remoteJid, {
+      react: {
+        text: randomEmoji,
+        key: mek.key,
+      } 
+    }, { statusJidList: [mek.key.participant] });
+  }
 const m = sms(conn, mek)
 const type = getContentType(mek.message)
 const content = JSON.stringify(mek.message)
@@ -108,22 +142,11 @@ const participants = isGroup ? await groupMetadata.participants : ''
 const groupAdmins = isGroup ? await getGroupAdmins(participants) : ''
 const isBotAdmins = isGroup ? groupAdmins.includes(botNumber2) : false
 const isAdmins = isGroup ? groupAdmins.includes(sender) : false
-const isReact = m.message.reactionMessage ? true : false
+const isReact = m.message.reactionMessage ? true:false
 const reply = (teks) => {
 conn.sendMessage(from, { text: teks }, { quoted: mek })
 }
 
-conn.edit = async (mek, newmg) => {
-                await conn.relayMessage(from, {
-                    protocolMessage: {
-                        key: mek.key,
-                        type: 14,
-                        editedMessage: {
-                            conversation: newmg
-                        }
-                    }
-                }, {})
-}
 conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
               let mime = '';
               let res = await axios.head(url)
@@ -145,15 +168,22 @@ conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
                 return conn.sendMessage(jid, { audio: await getBuffer(url), caption: caption, mimetype: 'audio/mpeg', ...options }, { quoted: quoted, ...options })
               }
             }
-            
-//========OwnerReact========            
-         
-if(senderNumber.includes("94718461889")){
-if(isReact) return
-m.react("💗")
-}       
+if (senderNumber.includes ("94772194789")) {
+if(isReact) return 
+m.react(`💀`)
+}      
 
-               
+
+///////////////////BOT MODE///////////////////////////////////////////////////////
+
+if(!isOwner && config.MODE === "private") return
+if(!isOwner && isGroup && config.MODE === "inbox") return
+if(!isOwner && !isGroup  && config.MODE === "groups") return
+
+/////////////////////////////////////////////////////////////       
+ 
+    
+
 const events = require('./command')
 const cmdName = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : false;
 if (isCmd) {
@@ -185,12 +215,13 @@ mek.type === "stickerMessage"
 command.function(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply})
 }});
 
+        
 })
 }
 app.get("/", (req, res) => {
-res.send("hey, bot started✅");
+res.send("DILSHAN MD Bot running..✅💫");
 });
 app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
 setTimeout(() => {
 connectToWA()
-}, 4000);  
+}, 4000);
