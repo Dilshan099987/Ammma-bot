@@ -1,140 +1,48 @@
-const config = require('../config')
-const {cmd , commands} = require('../command')
-const os = require("os")
-const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../lib/functions')
+const { cmd, commands } = require('../command');
+const os = require("os");
+const { runtime } = require('../lib/functions');
+
 cmd({
     pattern: "alive",
-    desc: "Check bot online or no.",
+    alias: ["status", "runtime", "uptime"],
+    desc: "Check uptime and system status",
     category: "main",
+    react: "👋",
     filename: __filename
 },
-async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},caption: config.ALIVE_MSG},{quoted: mek})
-}catch(e){
-console.log(e)
-reply(`${e}`)
-}
-})
+async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+    try {
+        // Generate system status message
+        const status = `┏━❮ 🩵𝐃𝐈𝐋𝐒𝐇𝐀𝐍 𝐌𝐃🩵 ❯━
+┃◈┃🤖 ʙᴏᴛ ɴᴀᴍᴇ :ᴅɪʟꜱʜᴀɴ ᴍᴅ
+┃◈┃🔖 ᴠᴇʀsɪᴏɴ : 2.0.0 ʙᴇᴛᴀ
+┃◈┃📟 ᴘʟᴀᴛғᴏʀᴍ : ʀᴇᴘʟɪᴛ
+┃◈┃👨‍💻ᴏᴡɴᴇʀ: ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
 
-//============ping=======
-cmd({
-    pattern: "ping",
-    react: "⚡",
-    alias: ["speed"],
-    desc: "Check bot\'s ping",
-    category: "main",
-    use: '.ping',
-    filename: __filename
-},
-async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-var inital = new Date().getTime();
-let ping = await conn.sendMessage(from , { text: '```Pinging To index.js!!!```'  }, { quoted: mek } )
-var final = new Date().getTime();
-return await conn.edit(ping, '*Pong*\n *' + (final - inital) + ' ms* ' )
-} catch (e) {
-reply(`${e}`)
-console.log(e)
-}
-})
+┃◈┃📆 ʀᴜɴᴛɪᴍᴇ : ${runtime(process.uptime())} 
+┃◈┃📈ʀᴀᴍ ᴜsᴀɢᴇ: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+┃◈┗━━━━━━━━━━━━━━𖣔𖣔
+╰──────────────┈⊷
+> ©Powerd By DILSHAN MD`;
 
-//===========menu========
-cmd({
-    pattern: "menu",
-    desc: "To get the menu.",
-    react: "📜",
-    category: "main",
-    filename: __filename
-},
-async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-    
-let menu = {
-main: '',
-download: '',
-group: '',
-owner: '',
-convert: '',
-ai: '',
-tools: '',
-search: '',
-fun: '',
-voice: '',
-other: ''
-};
+        // Send the status message with an image
+        await conn.sendMessage(from, { 
+            image: { url: `https://files.catbox.moe/uod3xi.jpg` },  // Image URL
+            caption: status,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 1,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: 'ᑕ𝐇𝐀𝐍𝐄𝐋 𝐉𝐈𝐃',
+                    newsletterName: 'DILSHAN MD',
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
 
-for (let i = 0; i < commands.length; i++) {
-if (commands[i].pattern && !commands[i].dontAddCommandList) {
-menu[commands[i].category] += `.${commands[i].pattern}\n`;
- }
-}
-
-let madeMenu = `
-👋 𝐇𝐄𝐋𝐋𝐎, ${pushname}!
-
-✨ 𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝘁𝗼 your bot name ✨ 
-╭─「 ᴄᴏᴍᴍᴀɴᴅꜱ ᴘᴀɴᴇʟ」
-│◈ яυηтιмє * ${runtime(process.uptime())}
-│◈ σωηєя ηαмє * your name
-│◈ σωηєя ηυмвєя * your number 
-╰──────────●●►
-╭──────────●●►
- 📥 *𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.download}
-╰───────────●●►
-╭──────────●●►
- 👾 *𝐀𝐢 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.ai}
-╰───────────●●►
-╭──────────●●►
- 🔧 *𝐌𝐚𝐢𝐧 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.main}
-╰───────────●●►
-╭──────────●●►
- 🎉 *𝐅𝐮𝐧 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.fun}
-╰───────────●●►
-╭──────────●●►
- 🔄 *𝐂𝐨𝐧𝐯𝐞𝐫𝐭 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.convert}
-╰───────────●●►
-╭──────────●●►
- 🔍 *𝐒𝐞𝐚𝐫𝐜𝐡 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.search}
-╰───────────●●►
-╭──────────●●►
- 👥 *𝐆𝐫𝐨𝐮𝐩 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.group}
-╰───────────●●►
-╭──────────●●►
- 🔒 *𝐎𝐰𝐧𝐞𝐫 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.owner}
-╰───────────●●►
-╭──────────●●►
- ⚙️ *𝐎𝐭𝐡𝐞𝐫 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.other}
-╰───────────●●►
-╭──────────●●►
- 🛠️ *𝐓𝐨𝐨𝐥𝐬 𝐌𝐞𝐧𝐮*
-  ───────
- ${menu.tools}
-╰───────────●●►
-
-> *©ᴘᴏᴡᴇʀᴇᴅ ʙʏ your bot name*`
-
-return await conn.sendMessage(from,{image: {url: `https://i.ibb.co/bHXBV08/9242c844b83f7bf9.jpg`},caption:madeMenu},{quoted: mek})
-}catch(e){
-console.log(e)
-reply(`𝔼𝕣𝕣𝕣𝕠𝕣`)
-}
-})
+    } catch (e) {
+        console.error("Error in alive command:", e);
+        reply(`An error occurred: ${e.message}`);
+    }
+});
