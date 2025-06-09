@@ -82,7 +82,7 @@ console.log('dilshan-md ᴄᴏɴᴇᴄᴛᴇᴅ✅')
   
 let up = `┏━━━━━━━━━━━━━━━┓
 ┃ 🤖 BOT       : DILSHAN MD BOT CONNECTED ✅
-┃ 👑 `𝙊𝙬𝙣𝙚𝙧`: ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
+┃ 👑 `owner`: ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
 ┃ ⚙️ `Version`: 3.0.0 ʙᴇᴛᴀ
 ┃ 💻 `Host`: ʀᴇᴘʟɪᴛ
 ┃ ⏱️ `Uptime`: 10m 10s
