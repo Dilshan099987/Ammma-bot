@@ -14,7 +14,7 @@ try{
 let dec = `⚠️ Oops! Repo link is missing.
 🔗 Please try again later or reach out to the owner`
 
-await conn.sendMessage(from,{image:{url: `https://i.ibb.co/Kx3sxSfr/dinuzzmd.jpg`},caption:dec},{quoted:mek});
+await conn.sendMessage(from,{image:{url: `https://files.catbox.moe/g50hun.m4a`},caption:dec},{quoted:mek});
 
 }catch(e){
 console.log(e)
