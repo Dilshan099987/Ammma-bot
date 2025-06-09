@@ -38,7 +38,7 @@ await conn.sendMessage(from,{image:{url:`https://files.catbox.moe/zqu8s7.jpg`},c
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: 'https://whatsapp.com/channel/0029Vb691MgG8l5GHg8HgI3b',
+      newsletterJid: '120363419308807922@newsletter',
       newsletterName: 'DILSHAN-MD',
       serverMessageId: 999
     }
