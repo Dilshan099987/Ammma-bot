@@ -11,20 +11,9 @@ cmd({
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
 
-let dec = `*DILSHAN MD Repastitory Information*
+let dec = `⚠️ Oops! Repo link is missing.
+🔗 Please try again later or reach out to the owner`
 
-*| ɴᴀᴍᴇ*: ᴅɪʟꜱʜᴀɴ ᴍᴅ
-*| ᴏᴡɴᴇʀ*: ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
-*| ɴᴜᴍʙᴇʀ*: 94772194789
-*| ᴠᴇʀꜱɪᴏɴ*: 2.0.0 ʙᴇᴛᴀ
-
-
-*📡 REPO LINK*
-🔗◦පුකද බලන්නෙ ᴇᴘᴏ නෑ මල්ලී😂😂😂
-
-
->|©Powerd By DILSHAN MD☀
-`
 await conn.sendMessage(from,{image:{url: `https://i.ibb.co/Kx3sxSfr/dinuzzmd.jpg`},caption:dec},{quoted:mek});
 
 }catch(e){
