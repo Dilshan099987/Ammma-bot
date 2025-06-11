@@ -1,48 +1,200 @@
-const { cmd, commands } = require('../command');
-const os = require("os");
-const { runtime } = require('../lib/functions');
+const {cmd , commands} = require('../command')
+const {readEnv} = require('../lib/database')
 
 cmd({
     pattern: "alive",
-    alias: ["status", "runtime", "uptime"],
-    desc: "Check uptime and system status",
+    desc: "Check bot online or no.",
     category: "main",
-    react: "👋",
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
-    try {
-        // Generate system status message
-        const status = `┏━❮ 🩵𝐃𝐈𝐋𝐒𝐇𝐀𝐍 𝐌𝐃🩵 ❯━
-┃◈┃🤖 ʙᴏᴛ ɴᴀᴍᴇ :ᴅɪʟꜱʜᴀɴ ᴍᴅ
-┃◈┃🔖 ᴠᴇʀsɪᴏɴ : 2.0.0 ʙᴇᴛᴀ
-┃◈┃📟 ᴘʟᴀᴛғᴏʀᴍ : ʀᴇᴘʟɪᴛ
-┃◈┃👨‍💻ᴏᴡɴᴇʀ: ᴅɪʟꜱʜᴀɴ ᴀꜱʜɪɴꜱᴀ
+async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
+try{
 
-┃◈┃📆 ʀᴜɴᴛɪᴍᴇ : ${runtime(process.uptime())} 
-┃◈┃📈ʀᴀᴍ ᴜsᴀɢᴇ: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-┃◈┗━━━━━━━━━━━━━━𖣔𖣔
-╰──────────────┈⊷
-> ©Powerd By DILSHAN MD`;
+const config = await readEnv();
+if(config.BLOCK_JID.includes(from)) return
 
-        // Send the status message with an image
-        await conn.sendMessage(from, { 
-            image: { url: `https://files.catbox.moe/uod3xi.jpg` },  // Image URL
-            caption: status,
-            contextInfo: {
-                mentionedJid: [m.sender],
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'ᑕ𝐇𝐀𝐍𝐄𝐋 𝐉𝐈𝐃',
-                    newsletterName: 'DILSHAN MD',
-                    serverMessageId: 143
+let code = await conn.groupInviteCode('120363355439809658@g.us')
+
+let aliveMsg = `*_Hello ${pushname} 👋_*
+
+*_Infinity WhatsApp bot is alive..._*
+
+🧑‍💻 *Owner :* Sadaru
+
+📞 *Owner Number :* +94 70 181 4946
+
+🔗 *Main Movie Group :* https://chat.whatsapp.com/${code}
+
+_🔢 Reply Below Number :_
+
+1 || Menu
+2 || Bot speed
+3 || Owner
+
+> ɪɴꜰɪɴɪᴛʏ ᴡʜᴀᴛꜱᴀᴘᴘ ʙᴏᴛ ᴄʀᴇᴀᴛᴇᴅ ʙʏ ꜱᴀᴅᴀʀᴜ`
+
+const msg = {
+            newsletterJid: "120363352976453510@newsletter",
+            newsletterName: "INFINITY WA BOT",
+            serverMessageId: 999
+          };
+          const msg2 = {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: msg,
+            externalAdReply: { 
+		    		title: 'INFINITY WHATSAPP BOT',
+					body: 'ᴄʀᴇᴀᴛᴇᴅ ʙʏ ꜱᴀᴅᴀʀᴜ',
+					mediaType: 1,
+					sourceUrl: `https://chat.whatsapp.com/${code}` ,
+                	thumbnailUrl: 'https://github.com/Sadarulk/QueenMatheeDB/blob/main/botlogos/infinitybotlogo.png?raw=true' ,
+					renderLargerThumbnail: true,
+          			showAdAttribution: true
+	    		}
+          };
+
+const msg3 = {
+              text: aliveMsg,
+              contextInfo: msg2
+            };
+         const inf =  await conn.sendMessage(from, msg3, {
+              'quoted': mek
+            });
+
+conn.ev.on('messages.upsert', async (msgUpdate) => {
+            const msg = msgUpdate.messages[0];
+            if (!msg.message || !msg.message.extendedTextMessage) return;
+
+            const selectedOption = msg.message.extendedTextMessage.text.trim();
+
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === inf.key.id) {
+                switch (selectedOption) {
+                    case '1':
+
+                    let menu = {
+main: '',
+search: '',
+download: '',
+ai: '',
+owner: '',
+group: '',
+other: '',
+convert: ''
+};
+
+ for (let i = 0; i < commands.length; i++) {
+if (commands[i].pattern && !commands[i].dontAddCommandList) {
+menu[commands[i].category] += `│➤ ${config.PREFIX}${commands[i].pattern}\n`;
+ }
+}   
+
+let madeMenu = `*👋 HELLO _${pushname}_*
+
+「 ɪɴꜰɪɴɪᴛʏ ᴡᴀ ʙᴏᴛ ᴍᴇɴᴜ 」
+
+╭──────────●
+│❯ MAIN COMMANDS ❮
+│   ───────
+${menu.main}╰───────────●
+╭───────────●
+│❯ OWNER COMMANDS ❮
+│   ───────
+${menu.owner}╰───────────●
+╭───────────●
+│❯ GROUP COMMANDS ❮
+│   ───────
+${menu.group}╰───────────●
+╭───────────●
+│❯ AI COMMANDS ❮
+│   ───────
+${menu.ai}╰───────────●
+╭───────────●
+│❯ SEARCH COMMANDS ❮
+│   ───────
+${menu.search}╰───────────●
+╭───────────●
+│❯ DOWNLOAD COMMANDS ❮
+│   ───────
+${menu.download}╰───────────●
+╭───────────●
+│❯ CONVERT COMMANDS ❮
+│   ───────
+${menu.convert}╰───────────●
+╭───────────●
+│❯ OTHER COMMANDS ❮
+│   ───────
+${menu.other}╰───────────●
+
+> ɪɴꜰɪɴɪᴛʏ ᴡʜᴀᴛꜱᴀᴘᴘ ʙᴏᴛ ᴄʀᴇᴀᴛᴇᴅ ʙʏ ꜱᴀᴅᴀʀᴜ`
+
+const msg = {
+            newsletterJid: "120363352976453510@newsletter",
+            newsletterName: "INFINITY WA BOT",
+            serverMessageId: 999
+          };
+          const test1 = {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: msg,
+            externalAdReply: { 
+		    		title: 'INFINITY WHATSAPP BOT',
+					body: 'ᴄʀᴇᴀᴛᴇᴅ ʙʏ ꜱᴀᴅᴀʀᴜ',
+					mediaType: 1,
+					sourceUrl: `https://chat.whatsapp.com/${code}` ,
+                	thumbnailUrl: 'https://github.com/Sadarulk/QueenMatheeDB/blob/main/botlogos/infinitybotlogo.png?raw=true' ,
+					renderLargerThumbnail: true,
+          			showAdAttribution: true
+	    		}
+          };
+
+const test2 = {
+              text: madeMenu,
+              contextInfo: test1
+            };
+           await conn.sendMessage(from, test2, {
+              'quoted': mek
+            });
+                        
+                    break; 
+                    case '2':
+
+                    const startTime = Date.now()
+  
+        const response = await conn.sendMessage(from, { text: '*_Pinging Infinity wa bot..._*' }, {quoted : mek})
+  
+        const endTime = Date.now()
+        const ping = endTime - startTime
+    
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        await delay(1000)
+    
+        await conn.sendMessage(from, { text: `*Infinity's speed :* _${ping} ms_`, edit: response.key, })
+                        
+                    break;
+                    case '3': 
+
+                    const vcard = 'BEGIN:VCARD\n'
+            + 'VERSION:3.0\n' 
+            + 'FN:Sadaru\n'
+            + 'ORG:Infinity WA Bot Developer;\n'
+            + 'TEL;type=CELL;type=VOICE;waid=94701814946:+94701814946\n'
+            + 'END:VCARD'
+    
+await conn.sendMessage(from,{ contacts: { displayName: 'Sadaru', contacts: [{ vcard }] }}, {quoted: mek})
+                        
+                    break;
+                    default:
+                        reply("*_Invalid number.Please reply a valid number_*");
                 }
-            }
-        }, { quoted: mek });
 
-    } catch (e) {
-        console.error("Error in alive command:", e);
-        reply(`An error occurred: ${e.message}`);
-    }
-});
+            }
+        });
+                        
+}catch(e){
+console.log(e)
+reply(`${e}`)
+}
+})
