@@ -1,215 +1,224 @@
 const config = require('../config')
-const {cmd , commands} = require('../command')
+const { cmd, commands } = require('../command');
 const os = require("os")
 const {runtime} = require('../lib/functions')
 const axios = require('axios')
 
 cmd({
-
-    pattern: "menu",
-
-    react: "🛸",
-
-    alias: ["panel","commands"],
-
-    desc: "Get bot\'s command list.",
-
-    category: "main",
-
-    use: '.menu',
-
+    pattern: "menu2",
+    alias: "allmenu",
+    desc: "menu the bot",
+    category: "menu",
+    react: "⚡",
     filename: __filename
+}, 
+async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+    try {
+        let dec = `╭━━━〔 *${config.BOT_NAME}* 〕━━━┈⊷
+┃★╭──────────────
+┃★│ Owner : 🧑‍💻Dilshan Ashinsa🧑‍💻
+┃★│ Baileys : Multi Device
+┃★│ Type : NodeJs
+┃★│ Platform : Replit
+┃★│ Mode : Public 
+┃★│ Prifix : [.]
+┃★│ Version : v 2.0.0 𝗕𝗘𝗧𝗔
+┃★╰──────────────
+╰━━━━━━━━━━━━━━━┈⊷
+╭━━〔 *Download Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• facebook
+┃◈┃• mediafire
+┃◈┃• tiktok
+┃◈┃• twitter
+┃◈┃• Insta
+┃◈┃• apk
+┃◈┃• img
+┃◈┃• play
+┃◈┃• play2
+┃◈┃• audio
+┃◈┃• video
+┃◈┃• video2
+┃◈┃• ytmp3
+┃◈┃• ytmp4
+┃◈┃• song
+┃◈┃• darama
+┃◈┃• gdrive
+┃◈┃• smovie
+┃◈┃• baiscope 
+┃◈┃• ginisilia 
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Group Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• grouplink
+┃◈┃• add
+┃◈┃• remove
+┃◈┃• kick
+┃◈┃• promote 
+┃◈┃• demote
+┃◈┃• dismiss 
+┃◈┃• revoke
+┃◈┃• setgoodbye
+┃◈┃• setwelcome
+┃◈┃• delete 
+┃◈┃• getpic
+┃◈┃• ginfo
+┃◈┃• delete 
+┃◈┃• disappear on
+┃◈┃• disappear off
+┃◈┃• disappear 7D,24H
+┃◈┃• allreq
+┃◈┃• updategname
+┃◈┃• updategdesc
+┃◈┃• joinrequests
+┃◈┃• senddm
+┃◈┃• nikal
+┃◈┃• mute
+┃◈┃• unmute
+┃◈┃• lockgc
+┃◈┃• unlockgc
+┃◈┃• invite
+┃◈┃• tag
+┃◈┃• hidetag
+┃◈┃• tagall
+┃◈┃• tagadmins
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Owner Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• owner
+┃◈┃• menu
+┃◈┃• menu2
+┃◈┃• listcmd
+┃◈┃• allmenu
+┃◈┃• repo
+┃◈┃• block
+┃◈┃• unblock
+┃◈┃• fullpp
+┃◈┃• setpp
+┃◈┃• restart
+┃◈┃• shutdown
+┃◈┃• updatecmd
+┃◈┃• alive
+┃◈┃• ping 
+┃◈┃• gjid
+┃◈┃• jid
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Fun Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• insult
+┃◈┃• hack
+┃◈┃• joke
+┃◈┃• heart 
+┃◈┃• happy 
+┃◈┃• sad
+┃◈┃• angry 
+┃◈┃• shy
+┃◈┃• kiss
+┃◈┃• moon
+┃◈┃• cunfuzed
+┃◈┃• hand
+┃◈┃• nikal
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Convert Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• sticker
+┃◈┃• sticker2
+┃◈┃• fancy
+┃◈┃• take
+┃◈┃• tomp3
+┃◈┃• tts
+┃◈┃• trt
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Ai Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• ai
+┃◈┃• gpt
+┃◈┃• meta
+┃◈┃• blackbox
+┃◈┃• gpt4
+┃◈┃• bing
+┃◈┃• copilot
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Main Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• ping
+┃◈┃• ping2
+┃◈┃• alive
+┃◈┃• runtime
+┃◈┃• uptime 
+┃◈┃• repo
+┃◈┃• owner
+┃◈┃• menu
+┃◈┃• menu2
+┃◈┃• restart
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Anime Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• dog
+┃◈┃• king
+┃◈┃• animegirl
+┃◈┃• animegirl
+┃◈┃• animegirl1
+┃◈┃• animegirl2
+┃◈┃• animegirl3
+┃◈┃• animegirl4
+┃◈┃• animegirl5
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+╭━━〔 *Other Menu* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• fact
+┃◈┃• define
+┃◈┃• news
+┃◈┃• movie
+┃◈┃• weather
+┃◈┃• srepo
+┃◈┃• insult
+┃◈┃• save
+┃◈┃• wikipedia
+┃◈┃• gpass
+┃◈┃• githubstalk
+┃◈┃• yts
+┃◈┃• ytv
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+> ${config.CAPTION}`;
 
-},
+        await conn.sendMessage(
+            from,
+            {
+                image: { url: `https://i.ibb.co/Kx3sxSfr/dinuzzmd.jpg` },
+                caption: dec,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363369260614615@newsletter',
+                        newsletterName: 'AWAIS MD',
+                        serverMessageId: 143
+                    }
+                }
+            },
+            { quoted: mek }
+        );
 
-async(conn, mek, m,{from, l, quoted, body, isCmd, umarmd, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-
-try{
-let madeMenu = `*╭┈───────────────•*
-
-*⇆ ʜɪɪ ᴍʏ ᴅᴇᴀʀ ғʀɪᴇɴᴅ ⇆*
-
-     *${pushname}*
-     
-*╰┈───────────────•*
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━•⟢
-*ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ sɪʟᴇɴᴛ-sᴏʙx-ᴍᴅ ғᴜʟʟ ᴄᴏᴍᴍᴀɴᴅ ʟɪsᴛ*
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━•⟢
-
-*ᴄʀᴇᴀᴛᴇᴅ ʙʏ sɪʟᴇɴᴛ ʟᴏᴠᴇʀ⁴³²👨🏻‍💻*
-
-*◆─〈 ${config.BOT_NAME} 〉─◆*
-*╭┈───────────────•* 
-*│  ◦*  *ʀᴜɴᴛɪᴍᴇ* : ${runtime(process.uptime())}
-*│  ◦*  *ᴍᴏᴅᴇ* : *[${config.MODE}]*
-*│  ◦*  *ᴘʀᴇғɪx* : *[${config.PREFIX}]*
-*│  ◦*  *ʀᴀᴍ ᴜsᴇ* : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-*│  ◦*  *ɴᴀᴍᴇ ʙᴏᴛ* : *❖sɪʟᴇɴᴛ-sᴏʙx-ᴍᴅ❖*
-*│  ◦*  *ᴄʀᴇᴀᴛᴏʀ* : *➺ѕเℓεɳƭ_ℓσѵε૨࿐*
-*│  ◦*  *ᴠᴇʀsɪᴏɴs* : *ᴠ.2.0.0*
-*│  ◦*  *ᴍᴇɴᴜ ᴄᴍᴅ* : *ᴍᴇɴᴜ ʟɪsᴛ*
-*╰┈───────────────•*
-*♡︎•━━━━━━☻︎━━━━━━•♡︎*
-
-*[ • 📥 DOWNLOADER-CMD 📥 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ғʙ <ᴜʀʟ>*
-*┋* *.ɪɴꜱᴛᴀ <ᴜʀʟ>*
-*┋* *.ᴠɪᴅᴇᴏ <ᴜʀʟ>*
-*┋* *.ɢᴅʀɪᴠᴇ <ᴜʀʟ>*
-*┋* *.ᴛᴡɪᴛᴛᴇʀ <ᴜʀʟ>*
-*┋* *.ᴛᴛ<ᴜʀʟ>*
-*┋* *.ᴍᴇᴅɪᴀғɪʀᴇ <ᴜʀʟ>*
-*┋* *.ꜱᴏɴɢ <ϙᴜᴇʀʏ>*
-*┋* *.ᴘʟᴀʏ <ᴜʀʟ>*
-*┋* *.ᴠɪᴅᴇᴏ <ϙᴜᴇʀʏ>*
-*┋* *.ᴠɪᴅᴇᴏ2 <ᴜʀʟ>*
-*┋* *.ɪᴍɢ <ϙᴜᴇʀʏ>*
-*┋* *.ᴀᴘᴋ <ɴᴀᴍᴇ>*
-*┋* *.ᴅᴀʀᴀᴍᴀ <ᴛɪᴛᴛʟᴇ>*
-*┋* *.ᴘʟᴀʏ2 <ᴛɪᴛᴛʟᴇ>*
-*┋* *.ʙᴀɪsᴄᴏᴘᴇ <ᴜʀʟ>*
-*┋* *.ɢɪɴɪsɪsɪʟᴀ <ᴛɪᴛᴛʟᴇ>*
-*╰┈───────────────•*
-
-*[ • 🔎 SEARCH-CMD 🔍 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ʏᴛꜱ  <ᴛᴇxᴛ>*
-*┋* *.ʏᴛᴀ <ᴜʀʟ>*
-*┋* *.ʟᴏʟɪ <ᴛᴇxᴛ>*
-*┋* *.ᴍᴏᴠɪᴇɪɴғᴏ <ᴛᴇxᴛ>*
-*┋* *.ɪᴍɢ <ᴛᴇxᴛ>*
-*┋* *.ᴡᴇᴀᴛʜᴇʀ <ᴄɪᴛʏ>*
-*╰┈───────────────•*
-
-*[ • 🧠 AI-CMD 🧠 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ɢᴘᴛ <ᴛᴇxᴛ>*
-*┋* *.ᴀɪ <ᴛᴇxᴛ>*
-*┋* *.ʙᴏᴛ <ᴛᴇxᴛ>*
-*╰┈───────────────•*
-
-*[ • 👨‍💻 OWNER-CMD 👨‍💻 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ᴜᴘᴅᴀᴛᴇᴄᴍᴅ*
-*┋* *.sᴇᴛᴛɪɴɢs*
-*┋* *.ᴏᴡɴᴇʀ*
-*┋* *.ʀᴇᴘᴏ*
-*┋* *.ꜱʏꜱᴛᴇᴍ*
-*┋* *.ꜱᴛᴀᴛᴜꜱ*
-*┋* *.ʙʟᴏᴄᴋ*
-*┋* *.ᴜɴʙʟᴏᴄᴋ*
-*┋* *.sʜᴜᴛᴅᴏᴡɴ*
-*┋* *.ᴄʟᴇᴀʀᴄʜᴀᴛs*
-*┋* *.sᴇᴛᴘᴘ*
-*┋* *.ʙʀᴏᴀᴅᴄᴀsᴛ*
-*┋* *.ᴊɪᴅ*
-*┋* *.ɢᴊɪᴅ*
-*┋* *.ʀᴇꜱᴛᴀʀᴛ*
-*╰┈───────────────•*
-
-*[ • 👥 GROUP-CMD 👥 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ʀᴇᴍᴏᴠᴇ <ʀᴇᴘʟʏ ғᴏʀ ᴅᴇʟᴇᴛᴇ sᴍs>*
-*┋* *.ᴅᴇʟᴇᴛᴇ <ʀᴇᴘʟʏ ғᴏʀ ᴅᴇʟᴇᴛᴇ sᴍs>*
-*┋* *.ᴀᴅᴅ*
-*┋* *.ᴋɪᴄᴋ*
-*┋* *.sᴇᴛɢᴏᴏᴅʙʏᴇ <ᴛᴇxᴛ>*
-*┋* *.sᴇᴛᴡᴇʟᴄᴏᴍᴇ <ᴛᴇxᴛ>*
-*┋* *.ᴘʀᴏᴍᴏᴛᴇ*
-*┋* *.ᴅᴇᴍᴏᴛᴇ*
-*┋* *.ᴛᴀɢᴀʟʟ*
-*┋* *.ɢᴇᴛᴘɪᴄ*
-*┋* *.ɪɴᴠɪᴛᴇ*
-*┋* *.ʀᴇᴠᴏᴋᴇ*
-*┋* *.ᴊᴏɪɴʀᴇǫᴜᴇsᴛs*
-*┋* *.ᴀʟʟʀᴇǫ*
-*┋* *.ᴍᴜᴛᴇ*
-*┋* *.ᴜɴᴍᴜᴛᴇ*
-*┋* *.ʟᴏᴄᴋɢᴄ*
-*┋* *.ᴜɴʟᴏᴄᴋɢᴄ*
-*┋* *.ʟᴇᴀᴠᴇ*
-*┋* *.ᴜᴘᴅᴀᴛᴇɢɴᴀᴍᴇ*
-*┋* *.ᴜᴘᴅᴀᴛᴇɢᴅᴇsᴄ*
-*┋* *.ᴊᴏɪɴ*
-*┋* *.ʜɪᴅᴇᴛᴀɢ*
-*┋* *.ɢɪɴғᴏ*
-*┋* *.ᴅɪsᴀᴘᴘᴇᴀʀ ᴏɴ*
-*┋* *.ᴅɪsᴀᴘᴘᴇᴀʀ ᴏғғ*
-*┋* *.ᴅɪsᴀᴘᴘᴇᴀʀ 7ᴅ 24ʜ 90ᴅ*
-*┋* *.sᴇɴᴅᴅᴍ*
-*╰┈───────────────•*
-
-*[ • 📃 INFO-CMD 📃 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ᴍᴇɴᴜ*
-*┋* *.ᴍᴇɴᴜ2*
-*┋* *.ᴍᴇɴᴜ3*
-*┋* *.ᴀʙᴏᴜᴛ*
-*┋* *.sᴄʀɪᴘᴛ*
-*┋* *.ʀᴇᴘᴏ*
-*┋* *.ᴀʟɪᴠᴇ*
-*┋* *.ʙᴏᴛɪɴꜰᴏ*
-*┋* *.ꜱᴛᴀᴛᴜꜱ*
-*┋* *.ꜱᴜᴘᴘᴏʀᴛ*
-*┋* *.ᴘɪɴɢ*
-*┋* *.ᴘɪɴɢ2*
-*┋* *.ꜱʏꜱᴛᴇᴍ*
-*╰┈───────────────•*
-
-*[ • 🎡 CONVERTER-CMD 🎡 ‎• ]*
-*╭┈───────────────•*
-*┋* *.sᴛɪᴄᴋᴇʀ*
-*┋* *.ᴛʀᴛ <ᴛᴇxᴛ>*
-*┋* *.ᴛᴛs <ᴛᴇxᴛ>*
-*╰┈───────────────•*
-
-*[ • 🥂 RANDOM-CMD 🥂 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ᴋɪɴɢ*
-*┋* *.ᴅᴏɢ*
-*┋* *.ᴀɴɪᴍᴇ*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ1*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ2*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ3*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ4*
-*┋* *.ᴀɴɪᴍᴇɢɪʀʟ5*
-*╰┈───────────────•*
-
-*[ • 🏜️ WALLPAPERS-CMD 🏜️ ‎• ]*
-*╭┈───────────────•*
-*┋* *.ɪᴍɢ*
-*╰┈───────────────•*
-
-*[ • 🌐 OTHER-CMD 🌐 ‎• ]*
-*╭┈───────────────•*
-*┋* *.ᴛʀᴛ*
-*┋* *.ᴊᴏᴋᴇ*
-*┋* *.ꜰᴀᴄᴛ*
-*┋* *.ɢɪᴛʜᴜʙꜱᴛᴀʟᴋ*
-*┋* *.ɢᴘᴀꜱꜱ*
-*┋* *.ʜᴀᴄᴋ*
-*┋* *.ǫᴜᴏᴛᴇ*
-*┋* *.ꜱʀᴇᴘᴏ*
-*┋* *.ᴅᴇꜰɪɴᴇ*
-*╰┈───────────────•*
-
-*❒⁠⁠⁠⁠▭▬▭▬▭▬▭▬▭▬▭▬▭❒*⁠⁠⁠⁠
-
-┏━━━━━━━━━━━━━━━━━━━◆
-*https://whatsapp.com/channel/0029VaHO5B0G3R3cWkZN970s*
-┗━━━━━━━━━━━━━━━━━━━◆
-
-*•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ sɪʟᴇɴᴛʟᴏᴠᴇʀ⁴³²
-*•────────────•⟢*
-`
-
-await conn.sendMessage(from,{image:{url:config.ALIVE_IMG},caption:madeMenu},{quoted:mek})
-
-}catch(e){
-console.log(e)
-reply(`${e}`)
-}
-})
+        // Send audio
+        await conn.sendMessage(from, {
+            audio: { url: 'https://github.com/Awais-star-a11y/TESTING-REPO/raw/refs/heads/main/VID-20250118-WA0022.mp3' },
+            mimetype: 'audio/mp4',
+            ptt: true
+        }, { quoted: mek });
+        
+    } catch (e) {
+        console.log(e);
+        reply(`${e}`);
+    }
+});
